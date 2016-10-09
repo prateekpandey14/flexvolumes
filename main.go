@@ -20,12 +20,8 @@ type Result struct {
 	Device  string `json:"device,omitempty"`
 }
 
-type CommonOptions struct {
-	ApiKey string `json:"kubernetes.io/secret/key1"`
-}
-
 type AttachOptions struct {
-	CommonOptions
+	ApiKey   string `json:"kubernetes.io/secret/key1"`
 	VolumeId string `json:"volume_id"`
 }
 
@@ -161,6 +157,7 @@ func main() {
 	switch os.Args[1] {
 	case "init":
 		succeed()
+
 	case "attach":
 		if len(os.Args) != 3 {
 			fail("attach expected exactly 3 arguments; got ", os.Args)
