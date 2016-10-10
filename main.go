@@ -87,7 +87,7 @@ func attach(opt AttachOptions) {
 
 	vol, _, err := client.Storage.GetVolume(opt.VolumeId)
 	if err != nil {
-		fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error(), " options were: ", os.Args[2])
+		fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error())
 	}
 
 	droplet, err := detectDroplet(client)
@@ -179,8 +179,7 @@ func main() {
 		detach(device)
 
 	default:
-		fmt.Println("Not sure what to do. Called with args: ", os.Args)
-		os.Exit(1)
+		fail("Not sure what to do. Called with: ", os.Args)
 	}
 
 }
