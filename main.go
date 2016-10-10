@@ -21,8 +21,8 @@ type Result struct {
 }
 
 type AttachOptions struct {
-	ApiKey   string `json:"kubernetes.io/secret/key1"`
-	VolumeId string `json:"volume_id"`
+	ApiKey   string `json:"kubernetes.io/secret/apiKey"`
+	VolumeId string `json:"volumeId"`
 }
 
 func finish(result Result, code int) {
@@ -87,7 +87,7 @@ func attach(opt AttachOptions) {
 
 	vol, _, err := client.Storage.GetVolume(opt.VolumeId)
 	if err != nil {
-		fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error())
+		fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error(), " options were: ", os.Args[2])
 	}
 
 	droplet, err := detectDroplet(client)
