@@ -20,8 +20,9 @@ type Result struct {
 	Device  string `json:"device,omitempty"`
 }
 
-type AttachOptions struct {
+type JsonOptions struct {
 	ApiKey   string `json:"kubernetes.io/secret/apiKey"`
+	FsType   string `json:"kubernetes.io/fsType"`
 	VolumeId string `json:"volumeId"`
 }
 
@@ -79,7 +80,7 @@ func awaitAction(client *godo.Client, volId string, action *godo.Action) {
 	}
 }
 
-func attach(opt AttachOptions) {
+func attach(opt JsonOptions) {
 	client := getClient(opt.ApiKey)
 	if client == nil {
 		fail("Could not create client")
@@ -113,12 +114,12 @@ func attach(opt AttachOptions) {
 }
 
 func detach(device string) {
-	cred_bytes, err := ioutil.ReadFile(CRED_FILE)
+	credBytes, err := ioutil.ReadFile(CRED_FILE)
 	if err != nil {
 		fail("Failed to read credentials: ", err.Error())
 	}
 
-	client := getClient(string(cred_bytes))
+	client := getClient(string(credBytes))
 	if client == nil {
 		fail("Could not create client")
 	}
@@ -127,7 +128,7 @@ func detach(device string) {
 		fail("Expected path starting with ", DEVICE_PREFIX, "; instead got ", device)
 	}
 
-	disk_name := device[len(DEVICE_PREFIX):]
+	diskName := device[len(DEVICE_PREFIX):]
 
 	// TODO paginate?
 	vols, _, err := client.Storage.ListVolumes(nil)
@@ -136,7 +137,7 @@ func detach(device string) {
 	}
 
 	for _, vol := range vols {
-		if vol.Name == disk_name {
+		if vol.Name == diskName {
 			action, _, err := client.StorageActions.Detach(vol.ID)
 			if err != nil {
 				fail("Failed to detach: ", err.Error())
@@ -163,7 +164,7 @@ func main() {
 			fail("attach expected exactly 3 arguments; got ", os.Args)
 		}
 
-		var opt AttachOptions
+		var opt JsonOptions
 		if err := json.Unmarshal([]byte(os.Args[2]), &opt); err != nil {
 			fail("Could not parse options for attach; got ", os.Args[2])
 		}
@@ -177,6 +178,30 @@ func main() {
 
 		device := os.Args[2]
 		detach(device)
+
+	case "mount":
+		if len(os.Args) != 5 {
+			fail("mount expected exactly 5 argument; got ", os.Args)
+		}
+
+		mountDir := os.Args[2]
+		device := os.Args[3]
+
+		var opt JsonOptions
+		if err := json.Unmarshal([]byte(os.Args[4]), &opt); err != nil {
+			fail("Could not parse options for attach; got ", os.Args[2])
+		}
+
+		mount(mountDir, device, opt)
+
+	case "unmount":
+		if len(os.Args) != 3 {
+			fail("mount expected exactly 5 argument; got ", os.Args)
+		}
+
+		mountDir := os.Args[2]
+
+		unmount(mountDir)
 
 	default:
 		fail("Not sure what to do. Called with: ", os.Args)

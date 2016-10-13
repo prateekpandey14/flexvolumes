@@ -6,12 +6,16 @@ are welcome.
 
 ### Build
 
-Build with `go build .`
+```
+go get github.com/kardianos/govendor
+govendor sync
+go build -o digitalocean .
+```
 
 ### Install
 
-Copy `digitalocean` and `flexvolume-digitalocean` to the Kubernetes volume
-plugin directory, which is by default
+Copy `digitalocean` to the Kubernetes volume plugin directory, which is by
+default
 `/usr/libexec/kubernetes/kubelet-plugins/volume/exec/digitalocean/digitalocean`
 
 Note that CoreOS mounts `/usr` as read-only so instead you'll want to add

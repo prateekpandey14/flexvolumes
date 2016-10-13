@@ -33,13 +33,13 @@ func detectDroplet(client *godo.Client) (*godo.Droplet, error) {
 	}
 
 	for _, droplet := range droplets {
-		droplet_ip, err := droplet.PublicIPv4()
+		dropletIP, err := droplet.PublicIPv4()
 		if err != nil {
 			continue
 		}
 
 		for _, ip := range ips {
-			if droplet_ip == ip {
+			if dropletIP == ip {
 				return &droplet, nil
 			}
 		}

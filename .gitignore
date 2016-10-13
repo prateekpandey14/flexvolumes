@@ -1,2 +1,2 @@
-Godeps/_workspace
-/flexvolume-digitalocean
+/vendor/*/
+/digitalocean
