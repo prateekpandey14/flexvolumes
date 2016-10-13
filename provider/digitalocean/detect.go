@@ -26,7 +26,6 @@ func detectDroplet(client *godo.Client) (*godo.Droplet, error) {
 		}
 	}
 
-	// TODO paginate?
 	droplets, _, err := client.Droplets.List(nil)
 	if err != nil {
 		return nil, err
