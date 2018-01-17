@@ -2,11 +2,12 @@ package main
 
 import (
 	"io/ioutil"
-	"strings"
+	//"strings"
 	"time"
 
 	"github.com/digitalocean/godo"
 	f "github.com/tonyzou/flexvolumes"
+	"strings"
 )
 
 const CRED_FILE string = "/tmp/do_creds"
@@ -29,14 +30,22 @@ func (DigitalOceanPlugin) Init() f.Result {
 
 func (DigitalOceanPlugin) Attach(opts interface{}) f.Result {
 	opt := opts.(*DigitalOceanOptions)
-	client := getClient(opt.ApiKey)
+	credBytes, err := ioutil.ReadFile(CRED_FILE)
+	if err != nil {
+		return f.Fail("Failed to read credentials: ", err.Error())
+	}
+	credentials := string((credBytes))
+	cred := strings.TrimSpace(credentials)
+
+	client := getClient(cred) //put token here
+	//client := getClient("") //put token here
 	if client == nil {
 		return f.Fail("Could not create client")
 	}
 
 	vol, _, err := client.Storage.GetVolume(opt.VolumeId)
 	if err != nil {
-		return f.Fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error())
+		return f.Fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error(), )
 	}
 
 	droplet, err := detectDroplet(client)
@@ -53,10 +62,10 @@ func (DigitalOceanPlugin) Attach(opts interface{}) f.Result {
 		return *res
 	}
 
-	if err = ioutil.WriteFile(CRED_FILE, []byte(opt.ApiKey), 0600); err != nil {
+	/*if err = ioutil.WriteFile(CRED_FILE, []byte(opt.ApiKey), 0600); err != nil {
 		return f.Fail("Could not save credentials: ", err.Error())
 	}
-
+*/
 	return f.Result{
 		Status: "Success",
 		Device: DEVICE_PREFIX + vol.Name,
@@ -69,17 +78,20 @@ func (DigitalOceanPlugin) Detach(device string) f.Result {
 		return f.Fail("Failed to read credentials: ", err.Error())
 	}
 
-	client := getClient(string(credBytes))
+	credentials := string((credBytes))
+	cred := strings.TrimSpace(credentials)
+	client := getClient(cred) //put token here
 	if client == nil {
 		return f.Fail("Could not create client")
 	}
 
-	if !strings.HasPrefix(device, DEVICE_PREFIX) {
+	/*if !strings.HasPrefix(device, DEVICE_PREFIX) {
 		return f.Fail("Expected path starting with ", DEVICE_PREFIX, "; instead got ", device)
 	}
 
-	diskName := device[len(DEVICE_PREFIX):]
+	diskName := device[len(DEVICE_PREFIX):]*/
 
+	diskName := device
 	vols, _, err := client.Storage.ListVolumes(nil)
 	if err != nil {
 		return f.Fail("Failed to list volumes: ", err.Error())
@@ -136,8 +148,27 @@ func awaitAction(client *godo.Client, volId string, action *godo.Action) *f.Resu
 	return nil
 }
 
-func (DigitalOceanPlugin) Mount(mountDir string, device string, opt interface{}) f.Result {
-	return f.Mount(mountDir, device, opt.(*DigitalOceanOptions).DefaultOptions)
+func (DigitalOceanPlugin) Mount(mountDir string, device string, opts interface{}) f.Result {
+	opt := opts.(*DigitalOceanOptions)
+	credBytes, err := ioutil.ReadFile(CRED_FILE)
+	if err != nil {
+		return f.Fail("Failed to read credentials: ", err.Error())
+	}
+
+	credentials := string((credBytes))
+	cred := strings.TrimSpace(credentials)
+	client := getClient(cred) //put token here
+	if client == nil {
+		return f.Fail("Could not create client")
+	}
+
+	vol, _, err := client.Storage.GetVolume(opt.VolumeId)
+	if err != nil {
+		return f.Fail("Could not get volume \"", opt.VolumeId, "\": ", err.Error(), )
+	}
+
+	device = DEVICE_PREFIX + vol.Name
+	return f.Mount(mountDir, device, opt.DefaultOptions)
 }
 
 func (DigitalOceanPlugin) Unmount(mountDir string) f.Result {
