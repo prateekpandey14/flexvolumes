@@ -28,7 +28,6 @@ const (
 	StatefulSetRevisionLabel       = ControllerRevisionHashLabelKey
 	DeprecatedRollbackTo           = "deprecated.deployment.rollback.to"
 	DeprecatedTemplateGeneration   = "deprecated.daemonset.template.generation"
-	StatefulSetPodNameLabel        = "statefulset.kubernetes.io/pod-name"
 )
 
 // +genclient
