@@ -2,7 +2,7 @@
 
 # flexvolumes
 
-This is a collection of Kubernetes FlexVolume plugins. Since FlexVolumes are unstable, so too is this. Use at your own risk. Contributions are welcome.
+This is a collection of Kubernetes FlexVolume plugins. Flexvolume is a GA feature from Kubernetes 1.8 release onwards.
 
 ### Build
 
