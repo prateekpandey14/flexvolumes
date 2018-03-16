@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/pharmer/flexvolumes.svg?branch=master)](https://travis-ci.org/pharmer/flexvolumes)
 [![codecov](https://codecov.io/gh/pharmer/flexvolumes/branch/master/graph/badge.svg)](https://codecov.io/gh/pharmer/flexvolumes)
 [![Docker Pulls](https://img.shields.io/docker/pulls/pharmer/flexvolumes.svg)](https://hub.docker.com/r/pharmer/flexvolumes/)
-[![Slack](https://slack.appscode.com/badge.svg)](https://slack.appscode.com)
+[![Slack](http://slack.kubernetes.io/badge.svg)](http://slack.kubernetes.io)
 [![Twitter](https://img.shields.io/twitter/follow/appscodehq.svg?style=social&logo=twitter&label=Follow)](https://twitter.com/intent/follow?screen_name=AppsCodeHQ)
 
 # flexvolumes
