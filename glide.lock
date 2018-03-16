@@ -1,16 +1,18 @@
-hash: 26e8d9c4453e9c116a990bff039cbff12d62b3b23e68b7047fca77ba41b5d57c
-updated: 2018-01-31T03:29:29.817450609-08:00
+hash: db31673938b875b5e43cff4bea5666408e346ef17efbf8da5db4b61e83c82820
+updated: 2018-03-16T04:11:29.073164521-07:00
 imports:
 - name: github.com/appscode/go
-  version: 99dbf420807d9459b63d1d0bf702537bb7aa976f
+  version: f8f2e1c7d2d10789cdd0540468b487d14421dbf9
   subpackages:
   - analytics
   - homedir
   - log/golog
   - runtime
   - version
+- name: github.com/appscode/jsonpatch
+  version: ee757872f6aca6d412d0d80543725bd4cf48f793
 - name: github.com/appscode/kutil
-  version: eae83543706680e70bf902428b43551cf7f1519b
+  version: 3e1d387015c275db5fd3d605fcf1f61af6ab6866
   subpackages:
   - meta
   - tools/analytics
@@ -70,12 +72,14 @@ imports:
   version: ff4f55a206334ef123e4f79bbf348980da81ca46
   subpackages:
   - log
+- name: github.com/evanphx/json-patch
+  version: 944e07253867aacae43c04b2e6a239005443f33a
 - name: github.com/fsnotify/fsnotify
   version: f12c6236fe7b5cf6bcf30e5935d08cb079d78334
 - name: github.com/ghodss/yaml
-  version: 0ca9ea5df5451ffdf184b4428c902747c2c11cd7
+  version: 73d445a93680fa1a78ae23a5839bad48f32ba1ee
 - name: github.com/go-ini/ini
-  version: 300e940a926eb277d3901b20bdfcc54928ad3642
+  version: d3de07a94d22b4a0972deb4b96d790c2c0ce8333
 - name: github.com/go-openapi/jsonpointer
   version: 46af16f9f7b149af66e5d1bd010e3574dc06de98
 - name: github.com/go-openapi/jsonreference
@@ -106,7 +110,7 @@ imports:
 - name: github.com/google/btree
   version: 7d79101e329e5a3adf994758c578dab82b90c017
 - name: github.com/google/go-cmp
-  version: 97aa668b73e764ccdd786bc3ccd2edffe621150e
+  version: 0c93777250bd58222171888d1651979319d8b381
   subpackages:
   - cmp
   - cmp/internal/diff
@@ -167,11 +171,11 @@ imports:
 - name: github.com/opencontainers/go-digest
   version: a6d0ee40d4207ea02364bd3b9e8e77b9159ba1eb
 - name: github.com/packethost/packngo
-  version: f1be085ecd6fca1b0a0e25eda71f208dcfcee5ab
+  version: a12e85fe62d71c82824079bed38164b4b8f0ff26
 - name: github.com/peterbourgon/diskv
   version: 5f041e8faa004a95c88a202771f4cc3e991971e6
 - name: github.com/pkg/errors
-  version: 645ef00459ed84a119197bfb8d8205042c6df63d
+  version: 816c9085562cd7ee03e7f8188a1cfd942858cded
 - name: github.com/pkg/sftp
   version: 4d0e916071f68db74f8a73926335f809396d6b42
 - name: github.com/prometheus/client_golang
@@ -213,7 +217,7 @@ imports:
   - mem
   - sftp
 - name: github.com/spf13/cobra
-  version: f91529fc609202eededff4de2dc0ba2f662240a3
+  version: c6c44e6fdcc30161c7f4480754da7230d01c06e3
   subpackages:
   - doc
 - name: github.com/spf13/pflag
@@ -283,7 +287,7 @@ imports:
 - name: gopkg.in/yaml.v2
   version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
 - name: k8s.io/api
-  version: 9fc595375ab38f53cbc3a53026ac40fb44ad50ca
+  version: 11147472b7c934c474a2c484af3c0c5210b7a3af
   subpackages:
   - admissionregistration/v1alpha1
   - admissionregistration/v1beta1
