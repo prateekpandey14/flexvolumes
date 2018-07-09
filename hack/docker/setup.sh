@@ -18,29 +18,29 @@ IMG=flexvolumes
 DIST=$GOPATH/src/github.com/pharmer/flexvolumes/dist
 mkdir -p $DIST
 if [ -f "$DIST/.tag" ]; then
-	export $(cat $DIST/.tag | xargs)
+  export $(cat $DIST/.tag | xargs)
 fi
 
 clean() {
-    pushd $GOPATH/src/github.com/pharmer/flexvolumes/hack/docker
-    rm flexvolumes Dockerfile
-    popd
+  pushd $GOPATH/src/github.com/pharmer/flexvolumes/hack/docker
+  rm flexvolumes Dockerfile
+  popd
 }
 
 build_binary() {
-    pushd $GOPATH/src/github.com/pharmer/flexvolumes
-    ./hack/builddeps.sh
-    ./hack/make.py build
-    detect_tag $DIST/.tag
-    popd
+  pushd $GOPATH/src/github.com/pharmer/flexvolumes
+  ./hack/builddeps.sh
+  ./hack/make.py build
+  detect_tag $DIST/.tag
+  popd
 }
 
 build_docker() {
-    pushd $GOPATH/src/github.com/pharmer/flexvolumes/hack/docker
-    cp $DIST/flexvolumes/flexvolumes-alpine-amd64 flexvolumes
-    chmod 755 flexvolumes
+  pushd $GOPATH/src/github.com/pharmer/flexvolumes/hack/docker
+  cp $DIST/flexvolumes/flexvolumes-alpine-amd64 flexvolumes
+  chmod 755 flexvolumes
 
-    cat >Dockerfile <<EOL
+  cat >Dockerfile <<EOL
 FROM alpine
 
 RUN set -x \
@@ -52,40 +52,41 @@ COPY driver.sh /driver.sh
 
 ENTRYPOINT ["/driver.sh"]
 EOL
-    local cmd="docker build -t pharmer/$IMG:$TAG ."
-    echo $cmd; $cmd
+  local cmd="docker build -t pharmer/$IMG:$TAG ."
+  echo $cmd
+  $cmd
 
-    rm flexvolumes Dockerfile
-    popd
+  rm flexvolumes Dockerfile
+  popd
 }
 
 build() {
-    build_binary
-    build_docker
+  build_binary
+  build_docker
 }
 
 docker_push() {
-    if [ "$APPSCODE_ENV" = "prod" ]; then
-        echo "Nothing to do in prod env. Are you trying to 'release' binaries to prod?"
-        exit 0
-    fi
-    if [ "$TAG_STRATEGY" = "git_tag" ]; then
-        echo "Are you trying to 'release' binaries to prod?"
-        exit 1
-    fi
-    hub_canary
+  if [ "$APPSCODE_ENV" = "prod" ]; then
+    echo "Nothing to do in prod env. Are you trying to 'release' binaries to prod?"
+    exit 0
+  fi
+  if [ "$TAG_STRATEGY" = "git_tag" ]; then
+    echo "Are you trying to 'release' binaries to prod?"
+    exit 1
+  fi
+  hub_canary
 }
 
 docker_release() {
-    if [ "$APPSCODE_ENV" != "prod" ]; then
-        echo "'release' only works in PROD env."
-        exit 1
-    fi
-    if [ "$TAG_STRATEGY" != "git_tag" ]; then
-        echo "'apply_tag' to release binaries and/or docker images."
-        exit 1
-    fi
-    hub_up
+  if [ "$APPSCODE_ENV" != "prod" ]; then
+    echo "'release' only works in PROD env."
+    exit 1
+  fi
+  if [ "$TAG_STRATEGY" != "git_tag" ]; then
+    echo "'apply_tag' to release binaries and/or docker images."
+    exit 1
+  fi
+  hub_up
 }
 
 source_repo $@
