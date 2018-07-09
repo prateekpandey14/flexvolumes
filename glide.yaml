@@ -1,0 +1,34 @@
+package: github.com/pharmer/flexvolumes
+import:
+- package: github.com/JamesClonk/vultr
+  version: 1.15.0
+- package: github.com/appscode/go
+  version: master
+- package: github.com/appscode/kutil
+  version: release-8.0
+- package: github.com/aws/aws-sdk-go
+  version: v1.14.21
+- package: github.com/digitalocean/godo
+  version: v1.3.0
+- package: github.com/golang/glog
+- package: github.com/jpillora/go-ogle-analytics
+- package: github.com/packethost/packngo
+  version: master
+- package: github.com/pkg/errors
+  version: v0.8.0
+- package: github.com/spf13/cobra
+  version: v0.0.3
+- package: github.com/taoh/linodego
+  repo: https://github.com/appscode/linodego.git
+  version: master
+  vcs: git
+- package: golang.org/x/crypto
+  version: 49796115aa4b964c318aad4f3084fdb41e9aa067
+- package: golang.org/x/oauth2
+- package: golang.org/x/sys
+- package: k8s.io/apimachinery
+  repo: https://github.com/pharmer/apimachinery.git
+  vcs: git
+  version: release-1.11
+- package: k8s.io/kubernetes
+  version: v1.11.0
